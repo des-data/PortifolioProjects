@@ -1,0 +1,59 @@
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_excel(r"C:\Users\Administrator\Documents\Learning Area\Data Camp by Alex the Analyst\Python Webscraping\Python for Data Cleaning.xlsx")
+df
+
+df = df.drop_duplicates()
+df
+
+
+#df["LandUse"] = df["LandUse"].str.lstrip("_")
+#df["LandUse"] = df["LandUse"].str.rstrip("...")
+#df
+df["LandUse"] = df["LandUse"].str.strip("?_%")
+df
+
+df.iloc[50]
+df
+
+#phone number formatting
+#df["PhoneNumber"] = df["PhoneNumber"].str.replace('[^a-zA-Z0-9]','')
+df.loc[:, "PhoneNumber"] = df["PhoneNumber"].astype(str).replace('nan', '').str.replace('[^a-zA-Z0-9]', '', regex=True)
+df
+
+#applying the hypen(-) after an interval
+df["PhoneNumber"] = df["PhoneNumber"].apply(lambda x: x[0:3]+'-'+x[3:6]+'-'+x[6:10])
+df
+
+#separating data in a column into different columns. In this case, we are splitting the address into street, state and the zip code
+df[["Street_Address","State"]] = df["PropertyAddress"].str.split(',',1, expand = True)
+df
+
+#Replaceing Yes with Y and No with N for uniformity 
+df["SoldAsVacant"] = df["SoldAsVacant"].str.replace("Yes","Y")
+df["SoldAsVacant"] = df["SoldAsVacant"].str.replace("No","N")
+df
+
+#Replacing Nan with blanks
+df = df.fillna('')
+df
+
+#for x in df.index:
+    #if df.loc[x, "PhoneNumber"] == "":
+        #df.drop(x, inplace = True)
+        #df
+#Another way to drop null values
+#df = df.dropna(subset = "PhoneNumber", inplace = True)
+
+# Save the cleaned DataFrame to an Excel file
+df.to_excel("cleaned_data.xlsx", index=False)
+
+print("Cleaned data saved as 'cleaned_data.xlsx'")
+
+from IPython.display import FileLink
+
+# Save and generate a download link
+df.to_excel("cleaned_data.xlsx", index=False)
+FileLink("cleaned_data.xlsx")
