@@ -46,4 +46,4 @@ for row in column_data[1:]: #this [1:] helps specify where the data should start
 
 df
 
-df.to_csv(r'C:\Users\Administrator\Documents\Learning Area\Data Camp by Alex the Analyst\Python Webscraping\Companies.csv',index = False)
+df.to_csv(r'C:\Users\Administrator\Documents\Learning Area\Data Camp Lessons\Python Webscraping\Companies.csv',index = False)
